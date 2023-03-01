@@ -1,0 +1,68 @@
+.header{
+    display: flex;
+    position: fixed;
+    width: 100%;
+    padding: 2vh 0;
+    height: 4vh;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+    background-color: black;
+
+}
+.web-name{
+    color: rgb(0, 205, 0);
+    font-size: 28px;
+}
+.middle-container{
+    display: flex;
+}
+
+.end-container{
+    align-items: center;
+    display: flex;
+    margin-right: 4vw;
+}
+
+.search{
+    min-width: 0px;
+    max-width: 18vw;
+    background-color: transparent;
+    
+    border-bottom: solid;
+    border-color:rgb(0, 205, 0);
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-width: 1px;
+    border-style: solid;
+    margin-right: 12px;
+}
+
+.new-release,.playlist,.shuffle-play{
+    color: white;
+    transition: font-size .5s,color .5s;
+    margin-left: 2vw;
+}
+
+.profile-img{
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+
+
+
+.new-release:hover,.playlist:hover,.shuffle-play:hover{
+    color: rgb(0, 205, 0);
+    font-size: 15px;
+}
+
+.user-name{
+    margin-left: 2vw;
+}
+
+
+

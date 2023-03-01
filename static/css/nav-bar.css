@@ -1,0 +1,56 @@
+.nav-bar{
+    position: fixed;
+    bottom: 0;
+    top: 8vh;
+    width: 200px;
+    padding-top: 4vh;
+    z-index: 5;
+    background-color: black;
+}
+
+h2{
+    font-size: 18px;
+    color: white;
+}
+
+.nav-button{
+    width: 100%;
+    height: 35px;
+    border-radius: 6px;
+    align-items: center;
+    display: flex;
+    transition: background-color .4s;
+    margin-bottom: 10px;
+}
+
+.nav-button:hover{
+    background-color: rgb(177, 177, 177);
+}
+
+.nav-heading{
+    margin-bottom: 22px;
+}
+
+.nav-button i{
+    width: 20px;
+    margin-right: 10px;
+    color: grey;
+    transition: color .3s;
+}
+
+.nav-button:hover i{
+    width: 20px;
+    margin-right: 10px;
+    color: white;
+}
+
+.nav-button p{
+    color: grey;
+    transition: color .3s;
+}
+.nav-button:hover p{
+    color: white;
+}
+
+
+

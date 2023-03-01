@@ -1,0 +1,33 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: montserrat,Arial, Helvetica, sans-serif;
+
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+body{
+    background-color: black;
+}
+
+p{
+    font-size: 16px;
+    color: rgba(114, 114, 114, 0.848);
+}
+
+button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+i{
+    color: white;
+}
+
+h1{
+    color: white;
+    font-size: 18px;
+}

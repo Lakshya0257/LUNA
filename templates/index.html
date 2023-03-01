@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/basic.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/header.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/nav-bar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/body.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/songs.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/artist.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Luna</title>
+    <script
+      src="https://kit.fontawesome.com/7918aa0ac3.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body style="padding-left: 20px">
+    <!-- Header -->
+
+    <header class="header">
+      <h2 class="web-name">Luna</h2>
+      <div class="middle-container">
+        <input class="search" type="text" />
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <button><p class="new-release">New releases</p></button>
+        <button><p class="playlist">Playlists</p></button>
+        <button><p class="shuffle-play">Shuffle Play</p></button>
+      </div>
+      <div class="end-container">
+        <img class="profile-img" src="images/th.jpeg" alt="profile-img" />
+        <p class="user-name">Lakshya Bhati</p>
+      </div>
+    </header>
+
+    <!-- NavBar -->
+
+    <nav class="nav-bar">
+      <h2 class="nav-heading">Browse music</h2>
+      <button class="nav-button">
+        <i class="fa-solid fa-house"></i>
+        <p>Home</p>
+      </button>
+      <button class="nav-button">
+        <i class="fa-solid fa-music"></i>
+        <p>Albums</p>
+      </button>
+      <button class="nav-button">
+        <i class="fa-solid fa-record-vinyl"></i>
+        <p>Tracks</p>
+      </button>
+      <button class="nav-button">
+        <i class="fa-solid fa-icons"></i>
+        <p>Playlist</p>
+      </button>
+      <h2 class="nav-heading">Library</h2>
+      <button class="nav-button">
+        <p>Recently played</p>
+      </button>
+      <button class="nav-button">
+        <p>Favourite Tracks</p>
+      </button>
+      <button class="nav-button">
+        <p>Charts</p>
+      </button>
+      <button class="nav-button">
+        <p>Radio</p>
+      </button>
+    </nav>
+
+    <!-- Background shading -->
+    <div class="background-image">
+      <div>
+        <img
+          class="img2"
+          src="https://www.billboard.com/wp-content/uploads/media/Ariana-Grande-5-bb27-2018-feat-billboard-airgbghejr-1240.jpg"
+          alt=""
+        />
+      </div>
+      <div>
+        <img
+          class="img1"
+          src="{{homepage[1]['contents'][1]['thumbnails'][homepage[1]['contents'][1]['thumbnails']|length-1]['url']}}"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="main-body">
+      <div class="upper-half"></div>
+      <div class="lower-half"></div>
+    </div>
+
+    <!-- Body -->
+
+    <div class="body">
+      <div class="flex-container">
+        <div>
+          <h1 class="big-heading">
+            {{homepage[1]['contents'][1]["artists"][0]["name"]}} <br />
+            - {{homepage[1]['contents'][1]["title"]}}
+          </h1>
+          <p class="small-text">
+            If music be the food of love, play on;<br />
+            Give me excess of it, that, surfeiting,<br />
+            The appetite may sicken, and so die. <br />
+            That strain again! it had a dying fall <br />
+          </p>
+        </div>
+        <div class="display-flex">
+          <button class="play">
+            <p>Play</p>
+          </button>
+          <button class="add-to-playlist">
+            <p>Add</p>
+          </button>
+        </div>
+      </div>
+      <div class="content-header">
+        <div>
+          <h1>Albums</h1>
+          <p>Recommended Albums for you</p>
+        </div>
+        <button>See More >></button>
+      </div>
+      <div class="albums-container">
+        {%for album in homepage[1]['contents']%}
+        <div class="album">
+          <div class="album-cover">
+            <img
+              src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
+              alt=""
+            />
+          </div>
+          <p>{{album["title"]}}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="content-header">
+        <div>
+          <h1>Playlist</h1>
+          <p>Playlists you might like</p>
+        </div>
+        <button>See More >></button>
+      </div>
+      <div class="albums-container">
+        {%for playlist in homepage[7]['contents']%}
+        <div class="album">
+          <div class="album-cover">
+            <img
+              src="{{playlist['thumbnails'][playlist['thumbnails']|length-1]['url']}}"
+              alt=""
+            />
+          </div>
+          <p>{{playlist["title"]}}</p>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="content-header">
+        <div>
+          <h1>Quick Picks</h1>
+          <p>Recommended Songs for you</p>
+        </div>
+      </div>
+      <div class="recommended-songs">
+        {%for album in homepage[0]['contents']%}
+        <div class="recommended-song-row">
+          <img
+            src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
+            alt=""
+          />
+          <div class="song-info">
+            <h1>{{album["title"]}}</h1>
+            <p>{{album["artists"][0]["name"]}}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="top-artist">
+        <div class="flex-container">
+          <div class="display-flex">
+            <h1 class="big-heading">
+              Sara'h <br />
+              : la Star des Covers
+            </h1>
+            <p class="small-text">
+              Sara'h is a singer of Lebanese descent as she has declared during
+              an interview on Goom Radio.[1] She grew up in the French city of
+              Avignon with her Lebanese father and a French mother and has a
+              brother. Her career jump started after making a cover of "Celui"
+              by Colonel Reyel. Her video got more than 6 million views on
+              YouTube.[2] She has released her first single "Pour Toi" in April
+              2011.[3] Her follow-up single is "À la faveur de l'automne", a
+              cover of a song by Tété.
+            </p>
+          </div>
+          <div class="display-flex">
+            <button class="play">
+              <p>Play</p>
+            </button>
+            <button class="add-to-playlist">
+              <p>View</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="content-header">
+        <div>
+          <h1>Artists</h1>
+          <p>Top Artists</p>
+        </div>
+        <button>See More >></button>
+      </div>
+      <div class="artists-container">
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.kennedy-center.org/globalassets/education/resources-for-educators/classroom-resources/artsedge/media/so-you-want-to-be-a-singer/what-it-takes-to-become-a-professional-singer/so-you-want-to-be-a-singer-4-169.jpg"
+              alt=""
+            />
+          </div>
+          <p>John F</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/foto-20.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Rosalía</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/billie-eilish_5145.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Billie Eilish</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Paul-Westerberg-GettyImages-942785456.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Paul Westerberg</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Anohni-GettyImages-876171220.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Anohni</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Jung-Kook-GettyImages-1443038935.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Jung Kook</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Robert-Smith-GettyImages-180449486.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Robert Smith</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Robert-Smith-GettyImages-180449486.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Robert Smith</p>
+        </div>
+        <div class="artist">
+          <div class="artist-cover">
+            <img
+              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Robert-Smith-GettyImages-180449486.jpg?w=1024"
+              alt=""
+            />
+          </div>
+          <p>Robert Smith</p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename='javascript/index.js') }}"></script>
+</html>
