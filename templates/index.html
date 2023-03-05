@@ -104,16 +104,17 @@
       <div>
         <img
           class="img2"
-          src="https://www.billboard.com/wp-content/uploads/media/Ariana-Grande-5-bb27-2018-feat-billboard-airgbghejr-1240.jpg"
+          src="{{artists[0]['thumbnails'][artists['thumbnails']|length-1]['url']}}"
           alt=""
         />
       </div>
       <div>
-        <img
+        <iframe class="img1" src="https://www.youtube.com/embed/HhjHYkPQ8F0?autoplay=1&mute=1" width="100%" height='100%' frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- <img
           class="img1"
-          src="{{homepage[1]['contents'][1]['thumbnails'][homepage[1]['contents'][1]['thumbnails']|length-1]['url']}}"
+          src="{{recommended_music_videos[1]['thumbnails'][recommended_music_videos[1]['thumbnails']|length-1]['url']}}"
           alt=""
-        />
+        /> -->
       </div>
     </div>
     <div class="main-body">
@@ -127,8 +128,8 @@
       <div class="flex-container">
         <div>
           <h1 class="big-heading">
-            {{homepage[1]['contents'][1]["artists"][0]["name"]}} <br />
-            - {{homepage[1]['contents'][1]["title"]}}
+            {{recommended_music_videos[1]["artists"][0]["name"]}} <br />
+            - {{recommended_music_videos[1]["title"]}}
           </h1>
           <p class="small-text">
             If music be the food of love, play on;<br />
@@ -154,8 +155,9 @@
         <button>See More >></button>
       </div>
       <div class="albums-container">
-        {%for album in homepage[1]['contents']%}
-        <div class="album">
+        {%for album in recommended_music_videos%}
+        {% set videoId = album["videoId"] %}
+        <div class="album" onclick="playSong('{{ videoId|escape }}')">
           <div class="album-cover">
             <img
               src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
@@ -174,7 +176,7 @@
         <button>See More >></button>
       </div>
       <div class="albums-container">
-        {%for playlist in homepage[7]['contents']%}
+        {%for playlist in recommended_playlists%}
         <div class="album">
           <div class="album-cover">
             <img
@@ -194,7 +196,8 @@
       </div>
       <div class="recommended-songs">
         {%for album in homepage[0]['contents']%}
-        <div class="recommended-song-row">
+        {% set videoId = album["videoId"] %}
+        <div class="recommended-song-row" onclick="playSong('{{ videoId|escape }}')">
           <img
             src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
             alt=""
@@ -210,18 +213,11 @@
         <div class="flex-container">
           <div class="display-flex">
             <h1 class="big-heading">
-              Sara'h <br />
-              : la Star des Covers
+              {{artists[0]["title"]}}
             </h1>
             <p class="small-text">
-              Sara'h is a singer of Lebanese descent as she has declared during
-              an interview on Goom Radio.[1] She grew up in the French city of
-              Avignon with her Lebanese father and a French mother and has a
-              brother. Her career jump started after making a cover of "Celui"
-              by Colonel Reyel. Her video got more than 6 million views on
-              YouTube.[2] She has released her first single "Pour Toi" in April
-              2011.[3] Her follow-up single is "À la faveur de l'automne", a
-              cover of a song by Tété.
+              {{artists[0]["views"]}} <br>
+              {{artists[0]["subscribers"]}}
             </p>
           </div>
           <div class="display-flex">
@@ -242,89 +238,50 @@
         <button>See More >></button>
       </div>
       <div class="artists-container">
+        {%for artist in artists %}
         <div class="artist">
           <div class="artist-cover">
             <img
-              src="https://www.kennedy-center.org/globalassets/education/resources-for-educators/classroom-resources/artsedge/media/so-you-want-to-be-a-singer/what-it-takes-to-become-a-professional-singer/so-you-want-to-be-a-singer-4-169.jpg"
+              src="{{artist['thumbnails'][0]['url']}}"
               alt=""
             />
           </div>
-          <p>John F</p>
+          <p>{{artist["title"]}}</p>
         </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/foto-20.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Rosalía</p>
+        
+        {% endfor %}
+        
+      </div>
+      
+    </div>
+    <div class="music_player">
+      <audio id="song" class="songsss">
+        <source id="song_link" src="https://rr2---sn-cnoa-w5pl.googlevideo.com/videoplayback?expire=1677894789&ei=JVACZOaQF_Gx8QO0xpnQAw&ip=117.212.9.236&id=o-AJdV67Vttd5g3p1MxJsdV3RsFJfPkYNGEKi5Vgf4b2rg&itag=249&source=youtube&requiressl=yes&mh=P4&mm=31%2C29&mn=sn-cnoa-w5pl%2Csn-qxaeenlz&ms=au%2Crdu&mv=m&mvi=2&pcm2cms=yes&pl=20&gcr=in&initcwndbps=841250&vprv=1&mime=audio%2Fwebm&ns=zFv347CMOmuQOA4zWghJcfQL&gir=yes&clen=1440091&dur=216.281&lmt=1676020676375962&mt=1677872705&fvip=3&keepalive=yes&fexp=24007246&c=WEB&txp=2318224&n=OqkmwEhNHNJCgor&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgZefVUDQpzE-l5a43E0mv8i_px71JGkV-rEDcDeZXHzkCIHqXohnv49MSWDKGEw8P9FFV89jFZDuc5MxO52584mgi&sig=AOq0QJ8wRQIgFX7JaiOUEK7AHo4DKfR-fEO_VvNSeogw1im564SUitECIQCHhQ5EcZrOFfajrkDmbVQJ35BsTXmAM8LZlbe8OVGbkA==" type="audio/mp3">
+        Your browser does not support the audio element.
+      </audio>
+      
+      <input type="range" value="0" id="progressBar">
+      <div class="main-controls">
+        
+        <div>
+          <i class="fa-regular fa-heart"></i>
+          <i class="fa-solid fa-backward"></i>
+          <div class="play"><i onclick="playPause()" class="fa-solid fa-play" id="playButton"></i></div>
+          <i class="fa-solid fa-forward"></i>
+          <i class="fa-solid fa-repeat"></i>
         </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/billie-eilish_5145.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Billie Eilish</p>
-        </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Paul-Westerberg-GettyImages-942785456.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Paul Westerberg</p>
-        </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Anohni-GettyImages-876171220.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Anohni</p>
-        </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Jung-Kook-GettyImages-1443038935.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Jung Kook</p>
-        </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Robert-Smith-GettyImages-180449486.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Robert Smith</p>
-        </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Robert-Smith-GettyImages-180449486.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Robert Smith</p>
-        </div>
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="https://www.rollingstone.com/wp-content/uploads/2022/12/Robert-Smith-GettyImages-180449486.jpg?w=1024"
-              alt=""
-            />
-          </div>
-          <p>Robert Smith</p>
+        
+      </div>
+      <div class="song-info">
+        <img src="https://images.genius.com/bf004d7c1ba188cb06c28e8966788a6d.1000x1000x1.jpg" alt="" id="song-image">
+        <div>
+          <h1>Treat You Better</h1>
+          <p>Shawn Mendes</p>
         </div>
       </div>
     </div>
+    <script src="{{ url_for('static', filename='javascript/music_player.js') }}"></script>  
   </body>
   <script src="{{ url_for('static', filename='javascript/index.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/music_player.js') }}"></script>
 </html>

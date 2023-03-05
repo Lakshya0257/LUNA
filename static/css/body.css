@@ -13,14 +13,14 @@
 .upper-half{
     width: 100%;
     height: 600px;
-    background:linear-gradient(rgba(0, 0, 0, 0.235), rgb(0, 0, 0));
+    background:linear-gradient(rgba(0, 0, 0, 0), rgb(20, 20, 20));
     
 }
 
 .lower-half{
     display: flex;
     flex: 1;
-    background-color: #000000;
+    background-color: rgb(20, 20, 20);
 }
 
 .body{
@@ -30,8 +30,8 @@
     right: 0;
     left: 220px;
     z-index: 2;
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left:8vw;
+    padding-right:8vw;
     overflow-y: scroll;
     
 }
@@ -43,6 +43,16 @@
     right: 0;
     left: 220px;
     z-index: 0;
+}
+
+.background-image iframe{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    object-fit: cover;
+    object-position: 0% 10%;
 }
 
 
@@ -85,6 +95,7 @@
     display: flex;
     align-items: end;
     margin-bottom: 50px;
+    width: 100%;
 }
 
 .display-flex{
