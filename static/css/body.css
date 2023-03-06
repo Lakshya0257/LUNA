@@ -45,16 +45,6 @@
     z-index: 0;
 }
 
-.background-image iframe{
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    object-fit: cover;
-    object-position: 0% 10%;
-}
-
 
 .img1{
     position: absolute;

@@ -109,12 +109,11 @@
         />
       </div>
       <div>
-        <iframe class="img1" src="https://www.youtube.com/embed/HhjHYkPQ8F0?autoplay=1&mute=1" width="100%" height='100%' frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <!-- <img
+        <img
           class="img1"
           src="{{recommended_music_videos[1]['thumbnails'][recommended_music_videos[1]['thumbnails']|length-1]['url']}}"
           alt=""
-        /> -->
+        />
       </div>
     </div>
     <div class="main-body">
@@ -259,19 +258,6 @@
         <source id="song_link" src="https://rr2---sn-cnoa-w5pl.googlevideo.com/videoplayback?expire=1677894789&ei=JVACZOaQF_Gx8QO0xpnQAw&ip=117.212.9.236&id=o-AJdV67Vttd5g3p1MxJsdV3RsFJfPkYNGEKi5Vgf4b2rg&itag=249&source=youtube&requiressl=yes&mh=P4&mm=31%2C29&mn=sn-cnoa-w5pl%2Csn-qxaeenlz&ms=au%2Crdu&mv=m&mvi=2&pcm2cms=yes&pl=20&gcr=in&initcwndbps=841250&vprv=1&mime=audio%2Fwebm&ns=zFv347CMOmuQOA4zWghJcfQL&gir=yes&clen=1440091&dur=216.281&lmt=1676020676375962&mt=1677872705&fvip=3&keepalive=yes&fexp=24007246&c=WEB&txp=2318224&n=OqkmwEhNHNJCgor&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgZefVUDQpzE-l5a43E0mv8i_px71JGkV-rEDcDeZXHzkCIHqXohnv49MSWDKGEw8P9FFV89jFZDuc5MxO52584mgi&sig=AOq0QJ8wRQIgFX7JaiOUEK7AHo4DKfR-fEO_VvNSeogw1im564SUitECIQCHhQ5EcZrOFfajrkDmbVQJ35BsTXmAM8LZlbe8OVGbkA==" type="audio/mp3">
         Your browser does not support the audio element.
       </audio>
-      
-      <input type="range" value="0" id="progressBar">
-      <div class="main-controls">
-        
-        <div>
-          <i class="fa-regular fa-heart"></i>
-          <i class="fa-solid fa-backward"></i>
-          <div class="play"><i onclick="playPause()" class="fa-solid fa-play" id="playButton"></i></div>
-          <i class="fa-solid fa-forward"></i>
-          <i class="fa-solid fa-repeat"></i>
-        </div>
-        
-      </div>
       <div class="song-info">
         <img src="https://images.genius.com/bf004d7c1ba188cb06c28e8966788a6d.1000x1000x1.jpg" alt="" id="song-image">
         <div>
@@ -279,6 +265,29 @@
           <p>Shawn Mendes</p>
         </div>
       </div>
+      
+      <div class="main-controls">
+        
+        <div>
+          <!-- <i class="fa-regular fa-heart"></i> -->
+          <i class="fa-solid fa-backward"></i>
+          <div class="play"><i onclick="playPause()" class="fa-solid fa-play" id="playButton"></i></div>
+          <i class="fa-solid fa-forward"></i>
+          <!-- <i class="fa-solid fa-repeat"></i> -->
+        </div>
+        
+      </div>
+      <div class="timeline">
+        <p class="current-time">0:00</p>
+        <input type="range" value="0" id="progressBar">
+        <p class="ending-time">2:32</p>
+      </div>
+      
+      <div class="side-controls">
+        <i class="fa-regular fa-heart"></i>
+        <i class="fa-solid fa-repeat"></i>
+      </div>
+      
     </div>
     <script src="{{ url_for('static', filename='javascript/music_player.js') }}"></script>  
   </body>

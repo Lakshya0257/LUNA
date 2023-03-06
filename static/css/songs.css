@@ -125,6 +125,7 @@
     left: 0;
     bottom: 0;
     right: 0;
+    padding-left: 2vw;
     height: 70px;
     align-items: center;
     /* border-radius: 10px; */
@@ -137,19 +138,17 @@
 
 }
 
-.music_player input{
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    width: 100%;
-}
+
 
 .music_player i{
   cursor: pointer;
   margin-left: 30px;
   margin-right: 30px;
   width: 10px;
+}
+
+.side-controls{
+    margin-right: 20vw;
 }
 
 .music_player div{
@@ -166,10 +165,39 @@
   background-color: rgb(0, 205, 0);
 }
 
+.timeline{
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+
+
+.timeline input{
+    width: 100%;
+}
+
+.timeline .current-time{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    font-size: 12px;
+}
+
+.timeline .ending-time{
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    font-size: 12px;
+}
+
 .music_player .song-info {
   
   display: flex;
-  width: 100%;
+  width: 40vw;
+  /* margin-left: 10vw; */
   justify-content: center;
   align-items: center;
 }
