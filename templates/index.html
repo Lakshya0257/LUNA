@@ -17,6 +17,11 @@
     <link
       rel="stylesheet"
       type="text/css"
+      href="{{ url_for('static', filename='css/side-bar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
       href="{{ url_for('static', filename='css/nav-bar.css') }}"
     />
     <link
@@ -46,219 +51,180 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body style="padding-left: 20px">
+  <body>
     <!-- Header -->
 
-    <header class="header">
-      <h2 class="web-name">Luna</h2>
-      <div class="middle-container">
-        <input class="search" type="text" />
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <button><p class="new-release">New releases</p></button>
-        <button><p class="playlist">Playlists</p></button>
-        <button><p class="shuffle-play">Shuffle Play</p></button>
-      </div>
-      <div class="end-container">
-        <img class="profile-img" src="images/th.jpeg" alt="profile-img" />
-        <p class="user-name">Lakshya Bhati</p>
-      </div>
-    </header>
-
-    <!-- NavBar -->
-
-    <nav class="nav-bar">
-      <h2 class="nav-heading">Browse music</h2>
-      <button class="nav-button">
-        <i class="fa-solid fa-house"></i>
-        <p>Home</p>
-      </button>
-      <button class="nav-button">
-        <i class="fa-solid fa-music"></i>
-        <p>Albums</p>
-      </button>
-      <button class="nav-button">
-        <i class="fa-solid fa-record-vinyl"></i>
-        <p>Tracks</p>
-      </button>
-      <button class="nav-button">
-        <i class="fa-solid fa-icons"></i>
-        <p>Playlist</p>
-      </button>
-      <h2 class="nav-heading">Library</h2>
-      <button class="nav-button">
-        <p>Recently played</p>
-      </button>
-      <button class="nav-button">
-        <p>Favourite Tracks</p>
-      </button>
-      <button class="nav-button">
-        <p>Charts</p>
-      </button>
-      <button class="nav-button">
-        <p>Radio</p>
-      </button>
-    </nav>
-
-    <!-- Background shading -->
-    <div class="background-image">
-      <div>
-        <img
-          class="img2"
-          src="{{artists[0]['thumbnails'][artists['thumbnails']|length-1]['url']}}"
-          alt=""
-        />
-      </div>
-      <div>
-        <img
-          class="img1"
-          src="{{recommended_music_videos[1]['thumbnails'][recommended_music_videos[1]['thumbnails']|length-1]['url']}}"
-          alt=""
-        />
-      </div>
-    </div>
-    <div class="main-body">
-      <div class="upper-half"></div>
-      <div class="lower-half"></div>
-    </div>
-
-    <!-- Body -->
-
-    <div class="body">
-      <div class="flex-container">
-        <div>
-          <h1 class="big-heading">
-            {{recommended_music_videos[1]["artists"][0]["name"]}} <br />
-            - {{recommended_music_videos[1]["title"]}}
-          </h1>
-          <p class="small-text">
-            If music be the food of love, play on;<br />
-            Give me excess of it, that, surfeiting,<br />
-            The appetite may sicken, and so die. <br />
-            That strain again! it had a dying fall <br />
-          </p>
+    <div id="content">
+      <header class="header">
+        <div class="middle-container">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input class="search" type="text" placeholder="Search for song, artist, lyrics..." />
         </div>
-        <div class="display-flex">
-          <button class="play">
-            <p>Play</p>
-          </button>
-          <button class="add-to-playlist">
-            <p>Add</p>
-          </button>
+        <div class="end-container">
+          <i class="fa-regular fa-bell"></i>
+          <img class="profile-img" src="https://www.readersdigest.ca/wp-content/uploads/2019/11/cat-10-e1573844975155.jpg" alt="profile-img" />
+          <p class="user-name">Alex</p>
         </div>
-      </div>
-      <div class="content-header">
-        <div>
-          <h1>Albums</h1>
-          <p>Recommended Albums for you</p>
-        </div>
-        <button>See More >></button>
-      </div>
-      <div class="albums-container">
-        {%for album in recommended_music_videos%}
-        {% set videoId = album["videoId"] %}
-        <div class="album" onclick="playSong('{{ videoId|escape }}')">
-          <div class="album-cover">
-            <img
+      </header>
+  
+      <!-- NavBar -->
+  
+      <nav class="nav-bar">
+        <h2>L</h2>
+        <button class="nav-button">
+          <i class="fa-solid fa-house"></i>
+          
+        </button>
+        <button class="nav-button">
+          <i class="fa-solid fa-music"></i>
+          
+        </button>
+        <button class="nav-button">
+          <i class="fa-solid fa-record-vinyl"></i>
+          
+        </button>
+        <button class="nav-button">
+          <i class="fa-solid fa-icons"></i>
+          
+        </button>
+        <button class="nav-button">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button class="nav-button">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+      </nav>
+  
+  
+      <div class='side-bar'>
+        <h1>Popular Songs</h1>
+        <div class="popular_songs">
+          
+          {%for album in quick_picks%}
+          {% set videoId = album["videoId"] %}
+          <div class="recommended-song-row" onclick="playSong('{{ videoId|escape }}')">
+            <div class="song">
+              <img
               src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
               alt=""
             />
+            <div class="song-info">
+              <h1>{{album["title"]}}</h1>
+            </div>
+            </div>
           </div>
-          <p>{{album["title"]}}</p>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-      <div class="content-header">
-        <div>
-          <h1>Playlist</h1>
-          <p>Playlists you might like</p>
+        <div class="now-playing">
+          <img src="https://images.genius.com/bf004d7c1ba188cb06c28e8966788a6d.1000x1000x1.jpg" alt="" id="side-image">
         </div>
-        <button>See More >></button>
       </div>
-      <div class="albums-container">
-        {%for playlist in recommended_playlists%}
-        <div class="album">
-          <div class="album-cover">
-            <img
-              src="{{playlist['thumbnails'][playlist['thumbnails']|length-1]['url']}}"
+  
+      <div class="body" >
+  
+        <div class="artist-row">
+          <div class="artist">
+            <img src="https://images2.alphacoders.com/109/thumb-1920-1092063.jpg" alt="">
+            <div class="blur"></div>
+            <div class="info">
+              <p>Liked Songs</p>
+            </div>
+          </div>
+          <div class="artist">
+            <img src="https://thumbs.dreamstime.com/b/girl-listening-to-music-headphones-dark-colorful-background-cute-child-enjoying-happy-dance-looking-camera-smile-147034797.jpg" alt="">
+            <div class="blur"></div>
+            <div class="info">
+              <p>Daily Mix</p>
+            </div>
+          </div>
+          <div class="artist">
+            <img src="https://media.istockphoto.com/photos/young-woman-enjoying-music-picture-id628528054?k=6&m=628528054&s=170667a&w=0&h=XOOdGkVIukxG59x19Wec-ouspD6VaI1bSfpFbejbkbY=" alt="">
+            <div class="blur"></div>
+            <div class="info">
+              <p>Shuffle Play</p>
+            </div>
+          </div>
+          <div class="artist" style="margin-right: 0;">
+            <img src="https://i.pinimg.com/originals/14/a9/b7/14a9b7955593932d33e034dd632929f3.jpg" alt="">
+            <div class="blur"></div>
+            <div class="info">
+              <p>Playlists</p>
+            </div>
+          </div>
+          
+        </div>
+  
+        <div class="second_row">
+          <div class="genre">
+            <h1>For You</h1>
+            {%for genre in genre_category['For you']%}
+            <div class="category"><p>{{genre['title']}}</p></div>
+            {% endfor %}
+            <h1><br> Moods & moments</h1>
+            {%for genre in genre_category['Moods & moments']%}
+            <div class="category"><p>{{genre['title']}}</p></div>
+            {% endfor %}
+          </div>
+          <div class="quick-picks">
+            <h1>Quick Picks</h1>
+            <div class="songs">
+              {%for album in quick_picks%}
+          {% set videoId = album["videoId"] %}
+          <div class="recommended-song-row" onclick="playSong('{{ videoId|escape }}')">
+            <div class="song">
+              <img
+              src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
               alt=""
             />
+            <div class="song-info">
+              <h1>{{album["title"]}}</h1>
+              <p>{{album["artists"][0]["name"]}}</p>
+            </div>
+            </div>
+            <i class="fa-regular fa-heart"></i>
           </div>
-          <p>{{playlist["title"]}}</p>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="content-header">
-        <div>
-          <h1>Quick Picks</h1>
-          <p>Recommended Songs for you</p>
-        </div>
-      </div>
-      <div class="recommended-songs">
-        {%for album in homepage[0]['contents']%}
-        {% set videoId = album["videoId"] %}
-        <div class="recommended-song-row" onclick="playSong('{{ videoId|escape }}')">
-          <img
-            src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
-            alt=""
-          />
-          <div class="song-info">
-            <h1>{{album["title"]}}</h1>
-            <p>{{album["artists"][0]["name"]}}</p>
+          {% endfor %}
+            </div>
+          </div>
+          <div class="artists">
+            {%for artist in artists %}
+                <img class="artist_img"
+                  src="{{artist['thumbnails'][0]['url']}}"
+                  alt=""
+                />
+            
+            {% endfor %}
           </div>
         </div>
-        {% endfor %}
-      </div>
-      <div class="top-artist">
-        <div class="flex-container">
-          <div class="display-flex">
-            <h1 class="big-heading">
-              {{artists[0]["title"]}}
-            </h1>
-            <p class="small-text">
-              {{artists[0]["views"]}} <br>
-              {{artists[0]["subscribers"]}}
-            </p>
+        <div class="content-header">
+          <div>
+            <h1>Playlist</h1>
+            <p>Playlists you might like</p>
           </div>
-          <div class="display-flex">
-            <button class="play">
-              <p>Play</p>
-            </button>
-            <button class="add-to-playlist">
-              <p>View</p>
-            </button>
-          </div>
+          <button>See More >></button>
         </div>
-      </div>
-      <div class="content-header">
-        <div>
-          <h1>Artists</h1>
-          <p>Top Artists</p>
-        </div>
-        <button>See More >></button>
-      </div>
-      <div class="artists-container">
-        {%for artist in artists %}
-        <div class="artist">
-          <div class="artist-cover">
-            <img
-              src="{{artist['thumbnails'][0]['url']}}"
-              alt=""
-            />
+        <div class="albums-container">
+          {%for playlist in recommended_playlists%}
+          <div class="album">
+            <div class="album-cover">
+              <img
+                src="{{playlist['thumbnails'][playlist['thumbnails']|length-1]['url']}}"
+                alt=""
+              />
+            </div>
+            <p>{{playlist["title"]}}</p>
           </div>
-          <p>{{artist["title"]}}</p>
+          {% endfor %}
         </div>
         
-        {% endfor %}
-        
       </div>
-      
     </div>
-    <div class="music_player">
-      <audio id="song" class="songsss">
+    <div class="music_player" >
+      <audio id="song" class="audio-link" autoplay>
         <source id="song_link" src="https://rr2---sn-cnoa-w5pl.googlevideo.com/videoplayback?expire=1677894789&ei=JVACZOaQF_Gx8QO0xpnQAw&ip=117.212.9.236&id=o-AJdV67Vttd5g3p1MxJsdV3RsFJfPkYNGEKi5Vgf4b2rg&itag=249&source=youtube&requiressl=yes&mh=P4&mm=31%2C29&mn=sn-cnoa-w5pl%2Csn-qxaeenlz&ms=au%2Crdu&mv=m&mvi=2&pcm2cms=yes&pl=20&gcr=in&initcwndbps=841250&vprv=1&mime=audio%2Fwebm&ns=zFv347CMOmuQOA4zWghJcfQL&gir=yes&clen=1440091&dur=216.281&lmt=1676020676375962&mt=1677872705&fvip=3&keepalive=yes&fexp=24007246&c=WEB&txp=2318224&n=OqkmwEhNHNJCgor&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgZefVUDQpzE-l5a43E0mv8i_px71JGkV-rEDcDeZXHzkCIHqXohnv49MSWDKGEw8P9FFV89jFZDuc5MxO52584mgi&sig=AOq0QJ8wRQIgFX7JaiOUEK7AHo4DKfR-fEO_VvNSeogw1im564SUitECIQCHhQ5EcZrOFfajrkDmbVQJ35BsTXmAM8LZlbe8OVGbkA==" type="audio/mp3">
         Your browser does not support the audio element.
       </audio>
-      <div class="song-info">
+      <div class="song-info" onclick="musicPlayer(event)">
         <img src="https://images.genius.com/bf004d7c1ba188cb06c28e8966788a6d.1000x1000x1.jpg" alt="" id="song-image">
         <div>
           <h1>Treat You Better</h1>
@@ -267,12 +233,11 @@
       </div>
       
       <div class="main-controls">
-        
         <div>
           <!-- <i class="fa-regular fa-heart"></i> -->
-          <i class="fa-solid fa-backward"></i>
-          <div class="play"><i onclick="playPause()" class="fa-solid fa-play" id="playButton"></i></div>
-          <i class="fa-solid fa-forward"></i>
+          <i class="fa-solid fa-backward" onclick="jumpToPrevious()"></i>
+          <div class="play"><i onclick="playPause(event)" class="fa-solid fa-play" id="playButton"></i></div>
+          <i class="fa-solid fa-forward" onclick="jumpToNext()"></i>
           <!-- <i class="fa-solid fa-repeat"></i> -->
         </div>
         
@@ -289,8 +254,8 @@
       </div>
       
     </div>
-    <script src="{{ url_for('static', filename='javascript/music_player.js') }}"></script>  
   </body>
-  <script src="{{ url_for('static', filename='javascript/index.js') }}"></script>
   <script src="{{ url_for('static', filename='javascript/music_player.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/player.js') }}"></script>
+  
 </html>

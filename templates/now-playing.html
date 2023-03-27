@@ -1,12 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/now-playing/page-structure.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/basic.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/now-playing/content.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/now-playing/timeline.css')}}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Luna</title>
+    <script
+      src="https://kit.fontawesome.com/7918aa0ac3.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body style="background-color: rgb(0, 0, 0)">
+    <div class="gradient">
+      <div class="thumbnail">
+        <div class="background-image">
+          <img
+            src="https://th.bing.com/th/id/R.d1ea7e7da8c43c5a3fbe465c5ed1dd65?rik=zwrbVkpt5wR%2f6g&riu=http%3a%2f%2fwallpapercave.com%2fwp%2fwp1842540.jpg&ehk=2MblQMk%2bviiZrGjHdsSXKDP795tpnbwB7z4%2bSlnoRJ4%3d&risl=&pid=ImgRaw&r=0"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="player">
+        <div class="upper-info">
+          <button onclick="homepage(event)">
+            <i class="fa-solid fa-house"></i>
+          </button>
+          <p>Now Playing</p>
+          <h1>We Don't talk anymore</h1>
+          <div class="lower-info">
+            <h1>Charlie Puth</h1>
+            <p>Views: 6M</p>
+          </div>
+        </div>
+        <div class="music_player">
+          <audio id="song" class="audio-link">
+            <source id="song_link" src="xyz" type="audio/mp3" />
+            Your browser does not support the audio element.
+          </audio>
+          <div class="Playertimeline">
+            <p class="current-time">0:00</p>
+            <input type="range" value="0" id="PlayerProgressBar" />
+            <p class="player-ending-time">2:32</p>
+          </div>
+          <div class="player-main-controls">
+            <!-- <i class="fa-regular fa-heart"></i> -->
+            <i class="fa-solid fa-backward" onclick="jumpToPrevious()"></i>
+            <div class="play">
+              <i
+                onclick="playPause()"
+                class="fa-solid fa-play"
+                id="PlayerPlayButton"
+              ></i>
+            </div>
+            <i class="fa-solid fa-forward" onclick="jumpToNext()"></i>
+            <!-- <i class="fa-solid fa-repeat"></i> -->
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="lower-half">
+      <h1>Recommended Queue</h1>
+      <div class="queue"></div>
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename='javascript/music_player_webpage.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/player.js') }}"></script>
 </html>

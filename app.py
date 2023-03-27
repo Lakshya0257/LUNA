@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from ytmusicapi import YTMusic
 import json
 import youtube_dl
-
+from pytube import YouTube
 from colorthief import ColorThief
 from urllib.request import urlopen
 from io import BytesIO
@@ -27,38 +27,55 @@ class Luna(db.Model):
         return f"{self.sno} - {self.title}"
 
 
-@app.route('/',methods=['POST','GET'])
-def helloWorld():
-    if(request.method=='POST'):
-        id=request.args.get("videoId")
-        song_detail= ytmusic.get_song(videoId=id)
-        song_url = f"https://music.youtube.com/watch?v={id}"
-        json_object=json.dumps(song_detail,indent=4)
-        f=open("trial.txt",'w')
-        f.write(json_object)
-        url=song_detail['videoDetails']['thumbnail']['thumbnails'][len(song_detail['videoDetails']['thumbnail']['thumbnails'])-1]['url']
-        image_data = urlopen(url).read()
-        image = BytesIO(image_data)
+# Routing
+@app.route('/', methods=['GET'])
+def homepage():
+    home_data = ytmusic.get_home(10)
+    artists = []
+    genre = ytmusic.get_mood_categories()
 
-        # Create a new ColorThief object with the image
-        color_thief = ColorThief(image)
-        dominant_color = color_thief.get_color(quality=10)
+    recommended_playlists = []
+    recommended_music_videos = []
+    quick_picks = []
 
-# Print the RGB values of the dominant color
-        print(dominant_color)
-        # Extract the colors from an image
-        # colors = colorgram.extract('https://lh3.googleusercontent.com/TlXKDSRGrj0ogqmGbzyGvZrsT9T0F6xgV-2-3pelbzRms0cODdb-ndDg6SpFzkHYMb4NMMMW957wmrObfw=w544-h544-l90-rj', 6)
+    for data in home_data:
+        if data['title'] == 'Recommended playlists':
+            recommended_playlists = data['contents']
+        elif data['title'] == 'Quick picks':
+            quick_picks = data['contents']
+            index=0;
+            while artists==[]:
+                try:
+                    artists = ytmusic.get_artist(quick_picks[index]["artists"][0]["id"])[
+                    'related']['results']
+                    json_object = json.dumps(artists, indent=4)
+                    f = open("trial.txt", 'w')
+                    f.write(json_object)
+                except:
+                    index+=1
+    return render_template('index.html', quick_picks=quick_picks, artists=artists, recommended_playlists=recommended_playlists, recommended_music_videos=recommended_music_videos, genre_category=genre)
 
-        # Get the RGB values of the colors
-        # rgb_colors = [(color.rgb.r, color.rgb.g, color.rgb.b) for color in colors]
 
-        # Print the RGB values
-        # print(rgb_colors)
-        
-        
-        
+@app.route('/watch')
+def watch():
+    return render_template('now-playing.html')
 
-    # Configure youtube_dl options
+
+# API
+@app.route('/recommendedQueue', methods=['GET'])
+def queue():
+    id = request.args.get("videoId")
+    watch_playlist = ytmusic.get_watch_playlist(videoId=id)
+    return watch_playlist
+
+
+@app.route('/getSong', methods=['GET'])
+def getSong():
+    id = request.args.get("videoId")
+    song_detail = ytmusic.get_song(videoId=id)
+    song_url = f"https://music.youtube.com/watch?v={id}"
+    print('waiting')
+    try:
         ydl_opts = {
             'cachedir': 'D:\Web dev\Luna\cache',
             'youtube_skip_dash_manifest': True,
@@ -72,82 +89,35 @@ def helloWorld():
             # 'preferredquality': '192',
             'nocheckcertificate': True,
             'format_limit': 1,
-            'max_downloads': 1
+            'max_downloads': 1,
+            'verbose': True
         }
-        # ydl_opts = {
-        #     'cachedir': False,
-        #     'youtube_skip_dash_manifest': True,
-        #     'quiet': True,
-        #     'no_warnings': True,
-        #     'extractaudio': True,
-        #     'audioformat': 'mp3',
-        #     'preferredcodec': 'mp3',
-        #     'nocheckcertificate': True,
-        #     'format_limit': 1,
-        #     'max_downloads': 1
-        # }
-
-        url=''
+        url = ''
 
         # Download the song and extract the streaming URL
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            print('waiting')
             info = ydl.extract_info(song_url, download=False)
             print('done')
             url = info['formats'][0]['url']
-        
-        print(url)
-        return jsonify({'url':url,'songDetail':song_detail,'color':dominant_color})
-    else:
-        home_data = ytmusic.get_home(10)
-        artists=[]
-        trial=ytmusic.get_artist(home_data[0]['contents'][0]["artists"][0]["id"])
-        # json_object=json.dumps(trial,indent=4)
-        # f=open("trial.txt",'w')
-        # f.write(json_object)
-        # print('dome')
-        artists=trial['related']['results']
-        # try:
-        #     for i in range(0,9):
-        #         if home_data[0]['contents'][i]["artists"][0]["id"] in artists_id:
-        #             print('Skipped')
-        #         else:
-        #             artists_id.append(home_data[0]['contents'][i]["artists"][0]["id"])
-        #             try:
-        #                 print(home_data[0]['contents'][i]["artists"][0]["id"])
-        #                 z=(home_data[0]['contents'][i]["artists"][0]["id"])
-        #                 artists.append(ytmusic.get_artist(channelId=z))
-        #             except:
-        #                 print('Internal Error occured')
-        # except:
-        #     print("Error")
-        
 
-        
-        recommended_playlists=[]
-        recommended_music_videos=[]
+    except:
+        yt = YouTube(f'https://www.youtube.com/watch?v={id}')
+        url = yt.streams.filter(only_audio=True).first().url
 
+    print(url)
+    # json_object = json.dumps(song_detail, indent=4)
+    # f = open("trial.txt", 'w')
+    # f.write(json_object)
+    # Create a new ColorThief object with the image
+    image_data = urlopen(song_detail['videoDetails']['thumbnail']['thumbnails'][len(song_detail['videoDetails']['thumbnail']['thumbnails'])-1]['url']).read()
+    image = BytesIO(image_data)
+    color_thief = ColorThief(image)
+    dominant_color = color_thief.get_color(quality=1)
+    print(dominant_color)
+    return jsonify({'url': url, 'songDetail': song_detail,'color':dominant_color})
 
-        # song_info=ytmusic.get_song("ejDDk5n7AbM")
-        # streaming_data=song_info['streamingData']
-        # streaming_url=None
-        
-
-        for data in home_data:
-            if data['title']=='Recommended playlists':
-                recommended_playlists=data['contents']
-            elif data['title']=='Recommended music videos':
-                recommended_music_videos=data['contents']
-
-        return render_template('index.html', homepage=home_data,artists=artists,recommended_playlists=recommended_playlists,recommended_music_videos=recommended_music_videos)
-
-
-@app.route('/music')
-def helloW():
-    return 'Products'
 
 
 if __name__ == "__main__":
     ytmusic = YTMusic('D:\Web dev\Luna\python\headers_auth.json')
-    
     app.run(debug=True)

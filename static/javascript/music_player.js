@@ -1,46 +1,67 @@
-let progressBarValue = document.getElementById("progressBar");
-let song = document.getElementById("song");
-let play = document.getElementById("playButton");
-let image = document.getElementById("song-image");
+const progressBarValue = document.getElementById("progressBar");
+const song = document.getElementById("song");
+const play = document.getElementById("playButton");
+const songImage = document.getElementById("song-image");
+let watch_playlist = [];
+let song_index = 1;
 
+if(sessionStorage.getItem('watch_playlist')!=null){
+  watch_playlist = JSON.parse(sessionStorage.getItem('watch_playlist'));
+}
+if(sessionStorage.getItem('song_index')!=null){
+  song_index=parseInt(sessionStorage.getItem('song_index'));
+  console.log(song_index);
+}
+
+
+//Checking for previous data in progressBar(mainly when navigating back to music player)
+if(sessionStorage.getItem('songData')!=null){
+  var data = JSON.parse(sessionStorage.getItem('songData'));
+  console.log(sessionStorage.getItem('songData'))
+  document.querySelector('.audio-link').setAttribute('src',data['url']);
+  document.querySelector('.music_player h1').innerHTML=data['songDetail']['videoDetails']['title'];
+  document.querySelector('.music_player p').innerHTML=data['songDetail']['videoDetails']['author'];
+  document.getElementById('song-image').setAttribute('src',data['songDetail']['videoDetails']['thumbnail']['thumbnails'][0]['url']);
+  document.getElementById('side-image').setAttribute('src',data['songDetail']['videoDetails']['thumbnail']['thumbnails'][data['songDetail']['videoDetails']['thumbnail']['thumbnails'].length-1]['url']);
+  console.log(data['url']);
+  const music_player=document.querySelector('.music_player');
+  music_player.style=`display: flex;`;
+  song.currentTime=sessionStorage.getItem('song-time');
+}
+
+
+//Homepage progress bar update
 function updateTime() {
   let minutes = Math.floor(song.currentTime / 60);
   let seconds = Math.round(song.currentTime - minutes * 60);
   document.querySelector('.current-time').innerHTML = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
   progressBarValue.value = song.currentTime;
   progressBarValue.style.background = "linear-gradient(to right, green, " + (song.currentTime / song.duration) * 100 + "%, grey " + (song.currentTime / song.duration) * 100 + "%)";
-  // progressBarValue.style.setProperty('--thumb-offset', (progressBarValue.value / (progressBarValue.max - progressBarValue.min)) * 100 + '%');
+  if((song.currentTime/song.duration)==1 && watch_playlist!=[]){
+    // console.log(watch_playlist);
+    console.log(song_index);
+    fetchNextSong(watch_playlist[song_index]['videoId']);
+  }
 }
-
-// add the timeupdate listener to the audio element
 song.addEventListener('timeupdate', updateTime);
-
-// define the input listener function for the progress bar
 function handleProgressInput() {
-  // set the current time of the audio to the value of the progress bar
   song.currentTime = progressBarValue.value;
-
-  // update the current time display
   let minutes = Math.floor(song.currentTime / 60);
   let seconds = Math.round(song.currentTime - minutes * 60);
   document.querySelector('.current-time').innerHTML = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
   progressBarValue.style.background = "linear-gradient(to right, green, " + (song.currentTime / song.duration) * 100 + "%, grey " + (song.currentTime / song.duration) * 100 + "%)";
 }
-
-// add the input listener to the progress bar
 progressBarValue.addEventListener('input', handleProgressInput);
-
-// add a mousedown listener to the progress bar to temporarily remove the timeupdate listener
 progressBarValue.addEventListener('mousedown', function() {
   song.removeEventListener('timeupdate', updateTime);
 });
-
-// add a mouseup listener to the progress bar to re-add the timeupdate listener
 progressBarValue.addEventListener('mouseup', function() {
   song.addEventListener('timeupdate', updateTime);
 });
 
 
+
+//On loading song
 song.onloadedmetadata = function () {
   progressBarValue.max = song.duration;
   let minutes = Math.floor(song.duration / 60);
@@ -49,46 +70,155 @@ song.onloadedmetadata = function () {
   progressBarValue.value = song.currentTime;
 };
 
-function playPause() {
+
+
+//Play-Pause event
+const playPause = (event) => {
+  if(event){
+    event.stopPropagation();
+  }
   if (play.classList.contains("fa-pause")) {
     song.pause();
     play.classList.remove("fa-pause");
     play.classList.add("fa-play");
+    sessionStorage.setItem('songStatus','pause');
   } else {
+    
     song.play();
     play.classList.remove("fa-play");
     play.classList.add("fa-pause");
+    sessionStorage.setItem('songStatus','play');
   }
 }
 
+if(sessionStorage.getItem('songStatus')=='play'){
+  console.log('playing');
+  play.classList.remove("fa-pause");
+  play.classList.add("fa-play");
+  playPause();
+}else{
+  console.log('pause');
+  play.classList.remove("fa-play");
+  play.classList.add("fa-pause");
+  playPause();
+}
 
+
+
+//playing song when user selects from mainPage not from music PLayer
 function playSong(videoId){
   console.log(videoId)
   fetchSong(videoId)
 }
 
 function fetchSong(videoId) {
-fetch(`?videoId=${videoId}`, {
-  method: 'POST',
+fetch(`/getSong?videoId=${videoId}`, {
+  method: 'GET',
   headers: {
     'Content-Type': 'application/json'
   },
 })
 .then(response => response.json())
-.then(data => {
-  document.querySelector('.songsss').setAttribute('src',data['url']);
+.then(async data => {
+  song_index=1;
+  sessionStorage.setItem('song_index',song_index);
+  var d=JSON.stringify(data);
+  sessionStorage.setItem('songData',d);
+  document.querySelector('.audio-link').setAttribute('src',data['url']);
   document.querySelector('.music_player h1').innerHTML=data['songDetail']['videoDetails']['title'];
   document.querySelector('.music_player p').innerHTML=data['songDetail']['videoDetails']['author'];
   document.getElementById('song-image').setAttribute('src',data['songDetail']['videoDetails']['thumbnail']['thumbnails'][0]['url']);
+  document.getElementById('side-image').setAttribute('src',data['songDetail']['videoDetails']['thumbnail']['thumbnails'][data['songDetail']['videoDetails']['thumbnail']['thumbnails'].length-1]['url']);
   console.log(data['url']);
-  let songs=document.querySelector('.songsss');
-  console.log(songs.duration);
-  document.querySelector('.music_player').style='display: flex;';
+  const music_player=document.querySelector('.music_player');
+  watchPlaylist(videoId);
+  music_player.style=`display: flex;`;
   play.classList.remove("fa-pause");
   play.classList.add("fa-play");
   playPause();
+  
 })
 .catch(error => {
   console.error(error);
+  if (error.response && error.response.status === 403) {
+    console.log('Something went wrong! Trying again..');
+    fetchSong(videoId);
+  }
 });
+}
+
+
+
+
+//watch playlist data
+async function watchPlaylist(videoId) {
+  fetch(`/recommendedQueue?videoId=${videoId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    watch_playlist=data['tracks'];
+    var d=JSON.stringify(watch_playlist)
+    sessionStorage.setItem('watch_playlist',d);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+  }
+
+
+//Playing next song from queue
+ async function fetchNextSong(videoId) {
+  fetch(`/getSong?videoId=${videoId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    
+    
+    var d=JSON.stringify(data);
+    sessionStorage.setItem('songData',d);
+    document.querySelector('.audio-link').setAttribute('src',data['url']);
+    document.querySelector('.music_player h1').innerHTML=data['songDetail']['videoDetails']['title'];
+    document.querySelector('.music_player p').innerHTML=data['songDetail']['videoDetails']['author'];
+    document.getElementById('song-image').setAttribute('src',data['songDetail']['videoDetails']['thumbnail']['thumbnails'][0]['url']);
+    document.getElementById('side-image').setAttribute('src',data['songDetail']['videoDetails']['thumbnail']['thumbnails'][data['songDetail']['videoDetails']['thumbnail']['thumbnails'].length-1]['url']);
+    console.log(data['url']);
+    play.classList.remove("fa-pause");
+    play.classList.add("fa-play");
+    playPause();
+    song_index=song_index+1;
+    sessionStorage.setItem('song_index',song_index);
+  })
+  .catch(error => {
+    console.error(error);
+    if (error.response && error.response.status === 403) {
+      console.log('Something went wrong! Trying again..');
+      fetchNextSong(videoId);
+    }
+  });
+  }
+
+
+function jumpToNext(){
+  fetchNextSong(watch_playlist[song_index]['videoId']);
+}
+
+async function jumpToPrevious(){
+  song_index=song_index-2;
+  fetchNextSong(watch_playlist[song_index]['videoId']);
+}
+
+
+
+//Navigating to music player from anypage
+function musicPlayer(event){
+  sessionStorage.setItem('song-time',song.currentTime);
+  window.location.href='/watch';
 }

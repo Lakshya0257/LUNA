@@ -1,0 +1,26 @@
+.lower-half h1{
+    font-size: 1.7rem;
+}
+
+.queue .queue-song{
+    /* margin-top: 10vh; */
+    height: 100%;
+    margin-right: 2vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.queue-song img{
+    width: 8vw;
+    height: 8vw;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.queue-song p{
+    font-size: 1rem;
+    margin-top: 3%;
+    color: gray;
+}
