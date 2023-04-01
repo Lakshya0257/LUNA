@@ -43,15 +43,10 @@
     width: 100%;
     background-color: transparent;
     border: none;
-    /* border-bottom: solid; */
-    /* border-color:rgb(0, 205, 0); */
-    /* border-top: 0;
-    border-right: 0;
-    border-left: 0;
-    border-width: 1px; */
-    /* border-style: solid; */
-    /* margin-right: 12px; */
+    color: white;
 }
+
+
 
 .profile-img{
     cursor: pointer;

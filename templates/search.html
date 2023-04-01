@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/basic.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/search/search.css') }}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Luna</title>
+    <script
+      src="https://kit.fontawesome.com/7918aa0ac3.js"
+      crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+    <div class="result">
+      <div class="content-header">
+        <div>
+          <h1>Songs</h1>
+        </div>
+        <button>See More >></button>
+      </div>
+      <div class="albums-container">
+        {%for song in songs%}
+        {% set videoId = song["videoId"] %}
+        <div class="album">
+          <div class="album-cover" onclick="playSong('{{ videoId|escape }}')">
+            <img
+              src="{{song['thumbnails'][song['thumbnails']|length-1]['url']}}"
+              alt=""
+            />
+          </div>
+          <p>{{song["title"]}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    <div class="content-header">
+        <div>
+          <h1>Albums</h1>
+        </div>
+        <button>See More >></button>
+      </div>
+      <div class="albums-container">
+        {%for album in albums%}
+        <div class="album">
+          <div class="album-cover">
+            <img
+              src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
+              alt=""
+            />
+          </div>
+          <p>{{album["title"]}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    <div class="content-header">
+        <div>
+          <h1>Community Playlist</h1>
+        </div>
+        <button>See More >></button>
+      </div>
+      <div class="albums-container">
+        {%for playlist in community_playlist%}
+        <div class="album">
+          <div class="album-cover">
+            <img
+              src="{{playlist['thumbnails'][playlist['thumbnails']|length-1]['url']}}"
+              alt=""
+            />
+          </div>
+          <p>{{playlist["title"]}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    <div class="content-header">
+        <div>
+          <h1>Artists</h1>
+        </div>
+        <button>See More >></button>
+      </div>
+      <div class="albums-container">
+        {%for artist in artists%}
+        <div class="album">
+          <div class="artist">
+            <img
+              src="{{artist['thumbnails'][artist['thumbnails']|length-1]['url']}}"
+              alt=""
+            />
+          </div>
+          <p>{{artist["artist"]}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+</body>
+<script src="{{ url_for('static', filename='javascript/music_player.js') }}"></script>
+</html>

@@ -54,11 +54,11 @@
   <body>
     <!-- Header -->
 
-    <div id="content">
+    <div>
       <header class="header">
         <div class="middle-container">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input class="search" type="text" placeholder="Search for song, artist, lyrics..." />
+          <i class="fa-solid fa-magnifying-glass" onclick="search()"></i>
+          <input class="search" type="text" placeholder="Search for song, artist, lyrics..." id="search-input" />
         </div>
         <div class="end-container">
           <i class="fa-regular fa-bell"></i>
@@ -120,7 +120,7 @@
         </div>
       </div>
   
-      <div class="body" >
+      <div class="body" id="content" >
   
         <div class="artist-row">
           <div class="artist">
@@ -256,6 +256,5 @@
     </div>
   </body>
   <script src="{{ url_for('static', filename='javascript/music_player.js') }}"></script>
-  <script src="{{ url_for('static', filename='javascript/player.js') }}"></script>
   
 </html>

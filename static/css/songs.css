@@ -24,7 +24,7 @@
 }
 
 .album{
-   
+    width: 200px;
     height: 100%;
     margin-right: 40px;
     display: flex;

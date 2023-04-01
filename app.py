@@ -68,6 +68,25 @@ def queue():
     watch_playlist = ytmusic.get_watch_playlist(videoId=id)
     return watch_playlist
 
+@app.route('/search', methods=['GET'])
+def search():
+    search = request.args.get("search")
+    result=ytmusic.search(search,limit=100)
+    songs=[]
+    albums=[]
+    community_playlist=[]
+    artists=[]
+    for element in result:
+        if(element['category']=='Songs'):
+            songs.append(element)
+        elif(element['category']=='Community playlists'):
+            community_playlist.append(element)
+        elif(element['category']=='Albums'):
+            albums.append(element)
+        elif(element['category']=='Artists'):
+            artists.append(element)            
+    return render_template('search.html',songs=songs,albums=albums,community_playlist=community_playlist,artists=artists)
+
 
 @app.route('/getSong', methods=['GET'])
 def getSong():
