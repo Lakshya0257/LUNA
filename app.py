@@ -139,4 +139,4 @@ def getSong():
 
 if __name__ == "__main__":
     ytmusic = YTMusic('D:\Web dev\Luna\python\headers_auth.json')
-    app.run(debug=True)
+    app.run(debug=False,host='0.0.0.0')
